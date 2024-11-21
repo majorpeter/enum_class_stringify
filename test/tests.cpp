@@ -6,7 +6,7 @@ ENUM_CLASS(OneValueOnly, Value)
 
 namespace test_namesp
 {
-    ENUM_CLASS(enumeration, off, on);
+    ENUM_CLASS(enumeration, off, on)
 } // namespace test_namesp
 
 TEST(enum_class_stringify, happy_path)
@@ -25,6 +25,7 @@ TEST(enum_class_stringify, one_value_only)
 TEST(enum_class_stringify, out_of_bounds_throws)
 {
     static constexpr auto count = NumbersStrings.size();
+    EXPECT_NO_THROW(enumToString(static_cast<Numbers>(0)));
     EXPECT_THROW(enumToString(static_cast<Numbers>(count)), std::out_of_range);
     EXPECT_THROW(enumToString(static_cast<Numbers>(-1)), std::out_of_range);
 }
