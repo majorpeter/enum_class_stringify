@@ -21,3 +21,9 @@ TEST(test_class, custom_ctor_param)
     TestClass tc(TestClass::State::Running);
     EXPECT_STREQ(tc.getState().c_str(), std::string{TestClass::enumToString(TestClass::State::Running)}.c_str());
 }
+
+TEST(test_class, enumFromStr)
+{
+    TestClass tc(TestClass::State::Waiting);
+    EXPECT_EQ(TestClass::State::Waiting, TestClass::StateFromString(tc.getState()));
+}

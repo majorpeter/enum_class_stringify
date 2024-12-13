@@ -64,4 +64,18 @@ consteval auto _enumClassConstructStrArray(const char *text)
         auto result = std::string{#name "::"};                                                                                  \
         result.append(enumToString(v));                                                                                         \
         return result;                                                                                                          \
+    }                                                                                                                           \
+    static name name##FromString(const std::string &s)                                                                          \
+    {                                                                                                                           \
+        for (auto i = 0; i < name##Strings.size(); i++)                                                                         \
+        {                                                                                                                       \
+            if (s.compare(name##Strings.at(i)) == 0)                                                                            \
+            {                                                                                                                   \
+                return static_cast<name>(i);                                                                                    \
+            }                                                                                                                   \
+        }                                                                                                                       \
+                                                                                                                                \
+        std::__throw_invalid_argument("argument not in " #name " values");                                                      \
+        /* not actually reached because of throw, but needed to silence 'control reaches end of non-void function */            \
+        return static_cast<name>(0);                                                                                            \
     }

@@ -35,3 +35,26 @@ TEST(enum_class_stringify, namespace)
     EXPECT_STREQ(std::string{enumToString(test_namesp::enumeration::off)}.c_str(), "off");
     EXPECT_STREQ(std::string{enumToString(test_namesp::enumeration::on)}.c_str(), "on");
 }
+
+TEST(enum_class_stringify, enumFromStr)
+{
+    EXPECT_EQ(NumbersFromString("Zero"), Numbers::Zero);
+    EXPECT_EQ(NumbersFromString("One"), Numbers::One);
+    EXPECT_EQ(NumbersFromString("Two"), Numbers::Two);
+    EXPECT_EQ(NumbersFromString("Three"), Numbers::Three);
+}
+
+TEST(enum_class_stringify, enumFromStr_namesp)
+{
+    EXPECT_EQ(test_namesp::enumerationFromString("off"), test_namesp::enumeration::off);
+    EXPECT_EQ(test_namesp::enumerationFromString("on"), test_namesp::enumeration::on);
+}
+
+TEST(enum_class_stringify, invalid_argument_throws)
+{
+    EXPECT_NO_THROW(NumbersFromString("Zero"));
+    EXPECT_NO_THROW(NumbersFromString("One"));
+    EXPECT_NO_THROW(NumbersFromString("Two"));
+    EXPECT_NO_THROW(NumbersFromString("Three"));
+    EXPECT_THROW(NumbersFromString("OtherString"), std::invalid_argument);
+}
