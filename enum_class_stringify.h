@@ -65,6 +65,7 @@ consteval auto _enumClassConstructStrArray(const char *text)
         result.append(enumToString(v));                                                                                         \
         return result;                                                                                                          \
     }                                                                                                                           \
+    static constexpr std::string_view name##ToString(const name v) { return name##Strings.at(static_cast<size_t>(v)); }         \
     static name name##FromString(const std::string &s)                                                                          \
     {                                                                                                                           \
         for (auto i = 0; i < name##Strings.size(); i++)                                                                         \
