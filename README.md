@@ -25,11 +25,20 @@ Stringify:
 
 ```cpp
 enumToString(TypeName::Value1)
+// or
+TypeNameToString(TypeName::Value1)
 // yields a std::string_view with the content of "Value1"
 
 
 enumToStringScoped(TypeName::Value1)
 // yields a std::string_view with the content of "TypeName::Value1"
+```
+
+Enum value from string:
+
+```cpp
+TypeNameFromString("Value1")
+// yields TypeName::Value1
 ```
 
 The `ENUM_CLASS` macro may be used in the global scope, inside namespaces or classes (or both). It defines the `enum class` as expected and also puts the `enumToString` function in the same scope:
@@ -46,12 +55,23 @@ public:
 void myPrint()
 {
     std::cout << MyClass::enumToString(MyClass::MyState::Pending) << std::endl;
+
+    std::string s;
+    std::cin >> s;
+    try {
+        const MyClass::MyState state = MyClass::MyStateFromString(s);
+        // ...
+    } catch (std::invalid_argument& e) {
+        //...
+    }
 }
 ```
 
 ### Exceptions
 
-`enumToString` uses a compile-time created `std::array` to collect the compile-time created `std::string_view`'s. Thus indexing out of this array will throw a `std::out_of_range` exception. This may happen due to incorrect casting or the variable getting by a memory safety issue corrupted etc.
+`enumToString` (`<name>ToString`) uses a compile-time created `std::array` to collect the compile-time created `std::string_view`'s. Thus indexing out of this array will throw a `std::out_of_range` exception. This may happen due to incorrect casting or the variable getting by a memory safety issue corrupted etc.
+
+`<name>FromString` tries to find the matching value in the same `std::array`, if it isn't found, the function throws a `std::invalid_argument` exception, make sure to catch this exception when working with user inputs.
 
 ## Running tests
 
