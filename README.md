@@ -77,6 +77,71 @@ void myPrint()
 
 `<name>FromString` tries to find the matching value in the same `std::array`, if it isn't found, the function throws a `std::invalid_argument` exception, make sure to catch this exception when working with user inputs.
 
+## Performance
+
+There is no runtime overhead for initializations since the strings/string views are created at compile time.
+
+The runtime cost of `enumToString` is minimal to zero, depending on optimization settings.
+
+Using `x86-64 gcc 14.2`.
+
+Consider the following example code:
+
+```cpp
+#include <iostream>
+#include "enum_class_stringify.h"
+
+ENUM_CLASS_STR(Number, Zero, One, Two)
+
+int main() {
+    std::cout << NumberToString(Number::One);
+    return 0;
+}
+```
+
+It yields the data below at `-O0` optimization. So the code contains a string with a comma separated list of possible enum values. Then there's the compile time generated array of `std::string_view`s (a length & offset pair for each value). This array is then indexed into by `enumToString`.
+
+```assembly
+.LC0:
+        .string "Zero, One, Two"
+NumberStrings:
+        .quad   4
+        .quad   .LC0
+        .quad   3
+        .quad   .LC0+6
+        .quad   3
+        .quad   .LC0+11
+```
+
+`-O1` makes the `string_view`s go away, their content is just loaded into the registers:
+
+```assembly
+.LC0:
+        .string "Zero, One, Two"
+main:
+        sub     rsp, 8
+        mov     edx, 3
+        mov     esi, OFFSET FLAT:.LC0+6
+        mov     edi, OFFSET FLAT:std::cout
+        call    std::basic_ostream<char, std::char_traits<char> >& std::__ostream_insert<char, std::char_traits<char> >(std::basic_ostream<char, std::char_traits<char> >&, char const*, long)
+        mov     eax, 0
+        add     rsp, 8
+        ret
+```
+
+So essentially the code operates like the following would:
+
+```cpp
+static constexpr char str[] = "Zero, One, Two";
+
+int main() {
+    std::cout << std::string_view{str + 6, 3};
+    return 0;
+}
+```
+
+The **string-to-enum lookup is not efficient** on the other hand. It just compares the input string with all string values until it finds a match (or throws and exception if none match). This could take a while if your enum has hundreds of values though this is uncommon.
+
 ## Running tests
 
 ```sh
