@@ -1,5 +1,8 @@
 # enum_class_stringify
 
+[![tests](https://github.com/majorpeter/enum_class_stringify/actions/workflows/cmake-build-and-test.yml/badge.svg)](https://github.com/majorpeter/enum_class_stringify/actions/workflows/cmake-build-and-test.yml)
+![GitHub License](https://img.shields.io/github/license/majorpeter/enum_class_stringify)
+
 A header-only library to automatically stringify `enum class` values in **C++20**.
 
 ## Why
@@ -15,9 +18,9 @@ It used to be possible to build arrays of key-value pairs with macros in earlier
 Definition of a stringifiable `enum class` (sadly this still needs a macro):
 
 ```cpp
-ENUM_CLASS(TypeName, Value1, Value2, Value3)
+ENUM_CLASS_STR(TypeName, Value1, Value2, Value3)
 
-// yields the following declaration
+// yields the following declaration (& creates the ToString/FromString functions)
 enum class TypeName { Value1, Value2, Value3 };
 ```
 
@@ -41,14 +44,14 @@ TypeNameFromString("Value1")
 // yields TypeName::Value1
 ```
 
-The `ENUM_CLASS` macro may be used in the global scope, inside namespaces or classes (or both). It defines the `enum class` as expected and also puts the `enumToString` function in the same scope:
+The `ENUM_CLASS_STR` macro may be used in the global scope, inside namespaces or classes (or both). It defines the `enum class` as expected and also puts the `enumToString`, `<TypeName>ToString`, `<TypeName>FromString` functions in the same scope:
 
 ```cpp
 class MyClass
 {
     //...
 public:
-    ENUM_CLASS(MyState, Initial, Pending, Accepted, Rejected)
+    ENUM_CLASS_STR(MyState, Initial, Pending, Accepted, Rejected)
     //...
 };
 
@@ -62,6 +65,7 @@ void myPrint()
         const MyClass::MyState state = MyClass::MyStateFromString(s);
         // ...
     } catch (std::invalid_argument& e) {
+        // user input may be invalid, always handle
         //...
     }
 }

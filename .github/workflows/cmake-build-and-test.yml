@@ -1,4 +1,4 @@
-name: CMake to run tests
+name: tests
 
 on:
   push:
