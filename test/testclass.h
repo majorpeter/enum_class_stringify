@@ -5,7 +5,7 @@
 class TestClass
 {
 public:
-    ENUM_CLASS(State, Initial, Running, Waiting, Error)
+    ENUM_CLASS_STR(State, Initial, Running, Waiting, Error)
     TestClass(State initialState = State::Initial);
     std::string getState() const;
 

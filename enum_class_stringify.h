@@ -76,7 +76,7 @@ consteval auto _enumClassConstructStrArray(const char *text)
     return v;
 }
 
-#define ENUM_CLASS(name, ...)                                                                                                   \
+#define ENUM_CLASS_STR(name, ...)                                                                                               \
     enum class name                                                                                                             \
     {                                                                                                                           \
         __VA_ARGS__                                                                                                             \

@@ -1,12 +1,12 @@
 #include "../enum_class_stringify.h"
 #include "gtest/gtest.h"
 
-ENUM_CLASS(Numbers, Zero, One, Two, Three)
-ENUM_CLASS(OneValueOnly, Value)
+ENUM_CLASS_STR(Numbers, Zero, One, Two, Three)
+ENUM_CLASS_STR(OneValueOnly, Value)
 
 namespace test_namesp
 {
-    ENUM_CLASS(enumeration, off, on)
+    ENUM_CLASS_STR(enumeration, off, on)
 } // namespace test_namesp
 
 TEST(enum_class_stringify, happy_path)
