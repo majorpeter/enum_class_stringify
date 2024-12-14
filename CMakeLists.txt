@@ -11,7 +11,7 @@ GIT_TAG v${GTEST_VERSION})
 FetchContent_MakeAvailable(googletest)
 
 add_executable(runUnitTests test/tests.cpp test/testclass.cpp)
-set_property(TARGET runUnitTests PROPERTY CXX_STANDARD 20)
+set_property(TARGET runUnitTests PROPERTY CXX_STANDARD 17)
 
 include_directories(${googletest_SOURCE_DIR}/include)
 target_link_libraries(runUnitTests gtest gtest_main)

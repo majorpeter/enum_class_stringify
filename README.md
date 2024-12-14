@@ -3,7 +3,7 @@
 [![tests](https://github.com/majorpeter/enum_class_stringify/actions/workflows/cmake-build-and-test.yml/badge.svg)](https://github.com/majorpeter/enum_class_stringify/actions/workflows/cmake-build-and-test.yml)
 ![GitHub License](https://img.shields.io/github/license/majorpeter/enum_class_stringify)
 
-A header-only library to automatically stringify `enum class` values in **C++20**.
+A header-only library to automatically stringify `enum class` values in **C++17**.
 
 ## Why
 
@@ -11,7 +11,7 @@ Error messages and logs are a lot more useful if values of _enum_'s - such as in
 
 Higher level languages such as `C#` and `Java` support converting `enum` values to strings for printing but this _overhead_ has never been allowed in C++.
 
-It used to be possible to build arrays of key-value pairs with macros in earlier C++ standards but with `costexpr` and `consteval` in C++20, it's possible to put the magic of enum class stringification in a single macro.
+It used to be possible to build arrays of key-value pairs with macros in earlier C++ standards but with `costexpr` and `std::string_view` in C++17, it's possible to put the magic of enum class stringification in a single macro. (C++20 also allows `consteval` on the helper functions but it produces the same result with `constexpr` in C++17.)
 
 ## Usage
 

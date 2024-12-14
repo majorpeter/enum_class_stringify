@@ -51,7 +51,7 @@ constexpr std::string_view _enumClassSplitStringView(const char *text, int index
     return {text, static_cast<size_t>(end - text)};
 }
 
-consteval int _enumClassCountFields(const char *text)
+constexpr int _enumClassCountFields(const char *text)
 {
     int count = 1;
     while (*text != '\0')
@@ -66,7 +66,7 @@ consteval int _enumClassCountFields(const char *text)
 }
 
 template <class T, int count>
-consteval auto _enumClassConstructStrArray(const char *text)
+constexpr auto _enumClassConstructStrArray(const char *text)
 {
     std::array<std::string_view, count> v;
     for (int i = 0; i < count; i++)
